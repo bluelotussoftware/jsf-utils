@@ -110,7 +110,7 @@ public class JSFUtils implements Serializable {
      * @return A complete {@link HtmlCommandLink} component.
      * @since 1.1
      */
-    public static HtmlCommandLink createCommandLink(final FacesContext context, final String methodExpression, final String value) {
+    public static HtmlCommandLink createHtmlCommandLink(final FacesContext context, final String methodExpression, final String value) {
         Application application = context.getApplication();
         Class<?>[] clazz = new Class<?>[]{};
         HtmlCommandLink htmlCommandLink = (HtmlCommandLink) application.createComponent(HtmlCommandLink.COMPONENT_TYPE);
@@ -128,7 +128,7 @@ public class JSFUtils implements Serializable {
      * @return A complete {@link HtmlCommandButton} component.
      * @since 1.2
      */
-    public static HtmlCommandButton createCommandButton(final FacesContext context, final String methodExpression, final String value) {
+    public static HtmlCommandButton createHtmlCommandButton(final FacesContext context, final String methodExpression, final String value) {
         Application application = context.getApplication();
         Class<?>[] clazz = new Class<?>[]{};
         HtmlCommandButton htmlCommandButton = (HtmlCommandButton) application.createComponent(HtmlCommandButton.COMPONENT_TYPE);
