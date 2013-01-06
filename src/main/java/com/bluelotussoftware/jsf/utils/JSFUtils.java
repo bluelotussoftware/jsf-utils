@@ -22,6 +22,7 @@ import java.io.Serializable;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -30,11 +31,11 @@ import javax.faces.event.ActionEvent;
  * A series of utility methods to make JSF development easier.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.1
+ * @version 1.2
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -8218619380354681662L;
+    private static final long serialVersionUID = -787789746515984737L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -116,5 +117,23 @@ public class JSFUtils implements Serializable {
         htmlCommandLink.setValue(value);
         htmlCommandLink.setActionExpression(JSFUtils.createMethodExpression(methodExpression, String.class, clazz));
         return htmlCommandLink;
+    }
+
+    /**
+     * Programmatic method to create an &lt;h:commandButton/&gt;.
+     *
+     * @param context The current request context.
+     * @param methodExpression The EL expression to be parsed and set.
+     * @param value The output value of the component.
+     * @return A complete {@link HtmlCommandButton} component.
+     * @since 1.2
+     */
+    public static HtmlCommandButton createCommandButton(final FacesContext context, final String methodExpression, final String value) {
+        Application application = context.getApplication();
+        Class<?>[] clazz = new Class<?>[]{};
+        HtmlCommandButton htmlCommandButton = (HtmlCommandButton) application.createComponent(HtmlCommandButton.COMPONENT_TYPE);
+        htmlCommandButton.setValue(value);
+        htmlCommandButton.setActionExpression(JSFUtils.createMethodExpression(methodExpression, String.class, clazz));
+        return htmlCommandButton;
     }
 }
