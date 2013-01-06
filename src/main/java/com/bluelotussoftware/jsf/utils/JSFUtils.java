@@ -45,7 +45,7 @@ public class JSFUtils implements Serializable {
      * to after evaluation.
      * @return The parsed expression.
      */
-    public static ValueExpression createValueExpression(String expression, Class<?> expectedType) {
+    public static ValueExpression createValueExpression(final String expression, Class<?> expectedType) {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().getExpressionFactory()
                 .createValueExpression(context.getELContext(), expression, expectedType);
@@ -76,7 +76,7 @@ public class JSFUtils implements Serializable {
      * arguments are used for method selection, and this parameter is ignored.
      * @return The parsed expression.
      */
-    public static MethodExpression createMethodExpression(String methodExpression, Class<?> expectedReturnType, Class<?>[] expectedParamTypes) {
+    public static MethodExpression createMethodExpression(final String methodExpression, Class<?> expectedReturnType, Class<?>[] expectedParamTypes) {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().getExpressionFactory()
                 .createMethodExpression(context.getELContext(), methodExpression, expectedReturnType, expectedParamTypes);
@@ -92,10 +92,9 @@ public class JSFUtils implements Serializable {
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
      * java.lang.Class<?>[])
      */
-    private static MethodExpression createActionEventListenerMethodExpression(String methodExpression) {
+    private static MethodExpression createActionEventListenerMethodExpression(final String methodExpression) {
         Class<?>[] expectedParamTypes = new Class<?>[1];
         expectedParamTypes[0] = ActionEvent.class;
-
         return createMethodExpression(methodExpression, Void.TYPE, expectedParamTypes);
     }
 }
