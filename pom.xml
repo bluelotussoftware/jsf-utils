@@ -8,10 +8,16 @@
     <packaging>jar</packaging>
     <name>JSF Utilities</name>
     <url>http://code.bluelotussoftware.com/jsf-utils</url>
+    <inceptionYear>2012</inceptionYear>
     <organization>
         <name>Blue Lotus Software, LLC.</name>
         <url>http://www.bluelotussoftware.com</url>
     </organization>
+    <scm>
+        <connection>scm:hg:http://code.bluelotussoftware.com/jsf-utils</connection>
+        <developerConnection>scm:hg:https://code.bluelotussoftware.com/jsf-utils</developerConnection>
+        <url>http://www.bluelotussoftware.com</url>
+    </scm>
     <developers>
         <developer>
             <id>jyeary</id>
@@ -130,6 +136,15 @@
                             <version>2.9</version>
                         </plugin>
                     </reportPlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.8.1</version>
+                <configuration>
+                    <username>username</username>
+                    <password>password</password>
                 </configuration>
             </plugin>
         </plugins>
