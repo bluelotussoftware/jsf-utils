@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 /**
- * A series of utility methods to make JSF development easier.
+ * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
  * @version 1.2

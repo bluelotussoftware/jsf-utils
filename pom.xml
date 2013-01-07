@@ -55,9 +55,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <description>This project consists of a number of convenience utilities for use in JSF
-        based projects.
-    </description>
+    <description>A collection of utility methods that handle repetitive boilerplate code.</description>
     <build>
         <plugins>
             <plugin>
