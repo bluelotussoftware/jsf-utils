@@ -19,23 +19,27 @@
 package com.bluelotussoftware.jsf.utils;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.2
+ * @version 1.3
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -787789746515984737L;
+    private static final long serialVersionUID = 1761100739510108382L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -135,5 +139,54 @@ public class JSFUtils implements Serializable {
         htmlCommandButton.setValue(value);
         htmlCommandButton.setActionExpression(JSFUtils.createMethodExpression(methodExpression, String.class, clazz));
         return htmlCommandButton;
+    }
+
+    /**
+     * <p>Determines the Base URL, e.g.,
+     * {@literal http://localhost:8080/myApplication} from the
+     * {@link FacesContext}.</p>
+     *
+     * @param facesContext The {@link FacesContext} to examine.
+     * @return the base URL.
+     * @throws MalformedURLException if an exception occurs during parsing of
+     * the URL.
+     * @since 1.3
+     */
+    public String getBaseURL(final FacesContext facesContext) throws MalformedURLException {
+        return getBaseURL(facesContext.getExternalContext());
+    }
+
+    /**
+     * <p>Determines the Base URL, e.g.,
+     * {@literal http://localhost:8080/myApplication} from the
+     * {@link ExternalContext}.</p>
+     *
+     * @param externalContext The {@link ExternalContext} to examine.
+     * @return the base URL.
+     * @throws MalformedURLException if an exception occurs during parsing of
+     * the URL.
+     * @since 1.3
+     */
+    public String getBaseURL(final ExternalContext externalContext) throws MalformedURLException {
+        return getBaseURL((HttpServletRequest) externalContext.getRequest());
+    }
+
+    /**
+     * <p>Determines the Base URL, e.g.,
+     * {@literal http://localhost:8080/myApplication} from the
+     * {@link HttpServletRequest}.</p>
+     *
+     * @param request The {@link HttpServletRequest} to examine.
+     * @return the base URL.
+     * @throws MalformedURLException if an exception occurs during parsing of
+     * the URL.
+     * @see URL
+     * @since 1.3
+     */
+    public String getBaseURL(final HttpServletRequest request) throws MalformedURLException {
+        return new URL(request.getScheme(),
+                request.getServerName(),
+                request.getServerPort(),
+                request.getContextPath()).toString();
     }
 }

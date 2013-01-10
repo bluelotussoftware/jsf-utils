@@ -16,7 +16,7 @@
     <scm>
         <connection>scm:hg:http://code.bluelotussoftware.com/jsf-utils</connection>
         <developerConnection>scm:hg:https://code.bluelotussoftware.com/jsf-utils</developerConnection>
-        <url>http://www.bluelotussoftware.com</url>
+        <url>http://code.bluelotussoftware.com/jsf-utils/src</url>
     </scm>
     <developers>
         <developer>
