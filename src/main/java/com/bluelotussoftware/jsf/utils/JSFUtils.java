@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = 1761100739510108382L;
+    private static final long serialVersionUID = 2344301737000423876L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -154,7 +154,7 @@ public class JSFUtils implements Serializable {
      * the URL.
      * @since 1.3
      */
-    public String getBaseURL(final FacesContext facesContext) throws MalformedURLException {
+    public static String getBaseURL(final FacesContext facesContext) throws MalformedURLException {
         return getBaseURL(facesContext.getExternalContext());
     }
 
@@ -169,7 +169,7 @@ public class JSFUtils implements Serializable {
      * the URL.
      * @since 1.3
      */
-    public String getBaseURL(final ExternalContext externalContext) throws MalformedURLException {
+    public static String getBaseURL(final ExternalContext externalContext) throws MalformedURLException {
         return getBaseURL((HttpServletRequest) externalContext.getRequest());
     }
 
@@ -185,7 +185,7 @@ public class JSFUtils implements Serializable {
      * @see URL
      * @since 1.3
      */
-    public String getBaseURL(final HttpServletRequest request) throws MalformedURLException {
+    public static String getBaseURL(final HttpServletRequest request) throws MalformedURLException {
         return new URL(request.getScheme(),
                 request.getServerName(),
                 request.getServerPort(),
