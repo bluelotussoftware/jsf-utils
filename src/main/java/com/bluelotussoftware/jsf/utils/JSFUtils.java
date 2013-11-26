@@ -287,17 +287,18 @@ public class JSFUtils implements Serializable {
      * Programmatic method to create an &lt;h:commandLink/&gt;.
      *
      * @param context The current request context.
-     * @param methodExpression The EL expression to be parsed and set.
+     * @param expression The EL expression to be parsed and set. The expression
+     * must comply with the rules for an action expression.
      * @param value The output value of the component.
      * @return A complete {@link HtmlCommandLink} component.
      * @since 1.1
+     * @see #createActionExpression(java.lang.String)
      */
-    public static HtmlCommandLink createHtmlCommandLink(final FacesContext context, final String methodExpression, final String value) {
+    public static HtmlCommandLink createHtmlCommandLink(final FacesContext context, final String expression, final String value) {
         Application application = context.getApplication();
-        Class<?>[] clazz = new Class<?>[]{};
         HtmlCommandLink htmlCommandLink = (HtmlCommandLink) application.createComponent(HtmlCommandLink.COMPONENT_TYPE);
         htmlCommandLink.setValue(value);
-        htmlCommandLink.setActionExpression(JSFUtils.createMethodExpression(methodExpression, String.class, clazz));
+        htmlCommandLink.setActionExpression(createActionExpression(expression));
         return htmlCommandLink;
     }
 
@@ -305,17 +306,18 @@ public class JSFUtils implements Serializable {
      * Programmatic method to create an &lt;h:commandButton/&gt;.
      *
      * @param context The current request context.
-     * @param methodExpression The EL expression to be parsed and set.
+     * @param expression The EL expression to be parsed and set. The expression
+     * must comply with the rules for an action expression.
      * @param value The output value of the component.
      * @return A complete {@link HtmlCommandButton} component.
      * @since 1.2
+     * @see #createActionExpression(java.lang.String)
      */
-    public static HtmlCommandButton createHtmlCommandButton(final FacesContext context, final String methodExpression, final String value) {
+    public static HtmlCommandButton createHtmlCommandButton(final FacesContext context, final String expression, final String value) {
         Application application = context.getApplication();
-        Class<?>[] clazz = new Class<?>[]{};
         HtmlCommandButton htmlCommandButton = (HtmlCommandButton) application.createComponent(HtmlCommandButton.COMPONENT_TYPE);
         htmlCommandButton.setValue(value);
-        htmlCommandButton.setActionExpression(JSFUtils.createMethodExpression(methodExpression, String.class, clazz));
+        htmlCommandButton.setActionExpression(createActionExpression(expression));
         return htmlCommandButton;
     }
 
