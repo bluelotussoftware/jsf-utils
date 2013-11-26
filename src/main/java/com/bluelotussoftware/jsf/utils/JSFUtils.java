@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -1537652468243537230L;
+    private static final long serialVersionUID = -1284788873033898262L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -54,6 +54,7 @@ public class JSFUtils implements Serializable {
      * @param expectedType The type the result of the expression will be coerced
      * to after evaluation.
      * @return The parsed expression.
+     * @see #createValueExpression(java.lang.String)
      */
     public static ValueExpression createValueExpression(final String expression, Class<?> expectedType) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -62,13 +63,30 @@ public class JSFUtils implements Serializable {
     }
 
     /**
+     * Creates a {@link ValueExpression} that wraps an object instance. This
+     * method can be used to pass any object as a {@link ValueExpression}. The
+     * wrapper {@link ValueExpression} is read only, and returns the wrapped
+     * object via its {@code getValue()} method, optionally coerced.
+     *
+     * @param expression The expression to be parsed.
+     * @return The parsed expression.
+     * @since 1.4
+     * @see #createValueExpression(java.lang.String, java.lang.Class)
+     */
+    public static ValueExpression createValueExpression(final String expression) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        return context.getApplication().getExpressionFactory()
+                .createValueExpression(context.getELContext(), expression, Object.class);
+    }
+
+    /**
      * <p>
      * This convenience method sets a {@link ValueExpression} to a specific
      * value.</p>
      * <p>
-     * For example {@literal #{currentDate}} could be mapped to the using
-     * {@literal JSFUtils.setValueExpressionToValue(new Date(System.currentTimeMillis), #{currentDate})}.
-     * This is useful when setting {@literal <f:param/>} values.</p>
+     * An example, {@literal #{currentDate}} could be mapped to the using
+     * {@literal JSFUtils.setValueExpressionToValue(new Date(System.currentTimeMillis), "#{currentDate}")}.
+     * This is useful when setting {@literal <f:param />} values.</p>
      *
      * @param value The {@code Object} to set as the {@link ValueExpression}
      * target.
@@ -77,8 +95,28 @@ public class JSFUtils implements Serializable {
      * @see #createValueExpression(java.lang.String, java.lang.Class)
      */
     public static void setValueExpressionToValue(final Object value, final String expression) {
-        ValueExpression ve = createValueExpression(expression, Object.class);
+        ValueExpression ve = createValueExpression(expression);
         ve.setValue(FacesContext.getCurrentInstance().getELContext(), value);
+    }
+
+    /**
+     * <p>
+     * This convenience method is used to map a variable to a
+     * {@link ValueExpression}.</p>
+     * <p>
+     * An example usage could be using the value from a list and mapping it to a
+     * variable, e.g.,
+     * {@literal JSFUtils.mapVariableToValueExpression("Phone", "#{directory.listings['Office']}")}.
+     * </p>
+     *
+     * @param variable The variable name to map.
+     * @param expression The expression to be mapped to the variable.
+     * @since 1.4
+     *
+     */
+    public static void mapVariableToValueExpression(final String variable, final String expression) {
+        ValueExpression ve = createValueExpression(expression);
+        FacesContext.getCurrentInstance().getELContext().getVariableMapper().setVariable(variable, ve);
     }
 
     /**
