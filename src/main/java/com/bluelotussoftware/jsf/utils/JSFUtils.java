@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -1284788873033898262L;
+    private static final long serialVersionUID = -8877205592076108417L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -154,32 +154,56 @@ public class JSFUtils implements Serializable {
      * This is a convenience method that produces an {@link MethodExpression} to
      * handle an {@link ActionEvent}.
      *
-     * @param methodExpression The expression to be parsed.
+     * @param expression The expression to be parsed.
      * @return The parsed expression.
-     * @see #createMethodExpression(java.lang.String, java.lang.Class,
+     * @see JSFUtils#createMethodExpression(java.lang.String, java.lang.Class,
      * java.lang.Class<?>[])
-     * @see #createActionEventMethodExpression(java.lang.String)
+     * @see JSFUtils#createActionEventMethodExpression(java.lang.String)
      * @deprecated
      */
     @Deprecated
-    public static MethodExpression createActionEventListenerMethodExpression(final String methodExpression) {
-        return createActionEventMethodExpression(methodExpression);
+    public static MethodExpression createActionEventListenerMethodExpression(final String expression) {
+        return createActionEventMethodExpression(expression);
     }
 
     /**
      * This is a convenience method that produces an {@link MethodExpression} to
      * handle an {@link ActionEvent}.
      *
-     * @param methodExpression The expression to be parsed.
+     * @param expression The expression to be parsed.
      * @return The parsed expression.
      * @since 1.4
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
      * java.lang.Class<?>[])
      */
-    public static MethodExpression createActionEventMethodExpression(final String methodExpression) {
+    public static MethodExpression createActionEventMethodExpression(final String expression) {
         Class<?>[] expectedParamTypes = new Class<?>[1];
         expectedParamTypes[0] = ActionEvent.class;
-        return createMethodExpression(methodExpression, Void.TYPE, expectedParamTypes);
+        return createMethodExpression(expression, Void.TYPE, expectedParamTypes);
+    }
+
+    /**
+     * This convenience method creates a {@link MethodExpression} for use as an
+     * action.
+     *
+     * This is used to set the {@link MethodExpression} pointing at the
+     * application action to be invoked, on a {@link UIComponent} activated by
+     * the user, during the Apply Request Values or Invoke Application phase of
+     * the request processing lifecycle, depending on the value of the immediate
+     * property.
+     *
+     * Any method referenced by such an expression must be public, with a return
+     * type of {@code String}, and accept no parameters.
+     *
+     * @param expression The expression to be parsed.
+     * @return An expression that has a {@code String} return value and no
+     * parameters.
+     * @since 1.4
+     * @see #createMethodExpression(java.lang.String, java.lang.Class,
+     * java.lang.Class<?>[])
+     */
+    public static MethodExpression createActionExpression(final String expression) {
+        return createMethodExpression(expression, String.class, new Class<?>[]{});
     }
 
     /**
