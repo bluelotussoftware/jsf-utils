@@ -31,17 +31,18 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.faces.event.MethodExpressionActionListener;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.3
+ * @version 1.4
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = 2344301737000423876L;
+    private static final long serialVersionUID = -239389905192465530L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -58,6 +59,26 @@ public class JSFUtils implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         return context.getApplication().getExpressionFactory()
                 .createValueExpression(context.getELContext(), expression, expectedType);
+    }
+
+    /**
+     * <p>
+     * This convenience method sets a {@link ValueExpression} to a specific
+     * value.</p>
+     * <p>
+     * For example {@literal #{currentDate}} could be mapped to the using
+     * {@literal JSFUtils.setValueExpressionToValue(new Date(System.currentTimeMillis), #{currentDate})}.
+     * This is useful when setting {@literal <f:param/>} values.</p>
+     *
+     * @param value The {@code Object} to set as the {@link ValueExpression}
+     * target.
+     * @param expression The expression to be parsed.
+     * @since 1.4
+     * @see #createValueExpression(java.lang.String, java.lang.Class)
+     */
+    public static void setValueExpressionToValue(final Object value, final String expression) {
+        ValueExpression ve = createValueExpression(expression, Object.class);
+        ve.setValue(FacesContext.getCurrentInstance().getELContext(), value);
     }
 
     /**
@@ -92,19 +113,62 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * This is a convenience method that produces an
-     * {@link ActionListener} {@link MethodExpression} to handle an
-     * {@link ActionEvent}.
+     * This is a convenience method that produces an {@link MethodExpression} to
+     * handle an {@link ActionEvent}.
      *
      * @param methodExpression The expression to be parsed.
      * @return The parsed expression.
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
      * java.lang.Class<?>[])
+     * @see #createActionEventMethodExpression(java.lang.String)
+     * @deprecated
      */
+    @Deprecated
     public static MethodExpression createActionEventListenerMethodExpression(final String methodExpression) {
+        return createActionEventMethodExpression(methodExpression);
+    }
+
+    /**
+     * This is a convenience method that produces an {@link MethodExpression} to
+     * handle an {@link ActionEvent}.
+     *
+     * @param methodExpression The expression to be parsed.
+     * @return The parsed expression.
+     * @since 1.4
+     * @see #createMethodExpression(java.lang.String, java.lang.Class,
+     * java.lang.Class<?>[])
+     */
+    public static MethodExpression createActionEventMethodExpression(final String methodExpression) {
         Class<?>[] expectedParamTypes = new Class<?>[1];
         expectedParamTypes[0] = ActionEvent.class;
         return createMethodExpression(methodExpression, Void.TYPE, expectedParamTypes);
+    }
+
+    /**
+     * This is a convenience method that produces a {@link ActionListener} for a
+     * {@link MethodExpression}
+     *
+     * @param methodExpression The expression to parse.
+     * @param expectedReturnType The expected return type for the method to be
+     * found. After evaluating the expression, the {@link MethodExpression} must
+     * check that the return type of the actual method matches this type.
+     * Passing in a value of {@code null} indicates the caller does not care
+     * what the return type is, and the check is disabled.
+     * @param expectedParamTypes The expected parameter types for the method to
+     * be found. Must be an array with no elements if there are no parameters
+     * expected. It is illegal to pass {@code null}, unless the method is
+     * specified with arguments in the EL expression, in which case these
+     * arguments are used for method selection, and this parameter is ignored.
+     * @return an {@link ActionListener} that wraps a {@link
+     * MethodExpression}. When it receives a {@link ActionEvent}, it executes a
+     * method on an object identified by the {@link
+     * MethodExpression}.
+     * @since 1.4
+     * @see #createMethodExpression(java.lang.String, java.lang.Class,
+     * java.lang.Class<?>[])
+     */
+    public static MethodExpressionActionListener createMethodExpressionActionListener(final String methodExpression, Class<?> expectedReturnType, Class<?>[] expectedParamTypes) {
+        return new MethodExpressionActionListener(createMethodExpression(methodExpression, expectedReturnType, expectedParamTypes));
     }
 
     /**
@@ -144,7 +208,8 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * <p>Determines the Base URL, e.g.,
+     * <p>
+     * Determines the Base URL, e.g.,
      * {@literal http://localhost:8080/myApplication} from the
      * {@link FacesContext}.</p>
      *
@@ -159,7 +224,8 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * <p>Determines the Base URL, e.g.,
+     * <p>
+     * Determines the Base URL, e.g.,
      * {@literal http://localhost:8080/myApplication} from the
      * {@link ExternalContext}.</p>
      *
@@ -174,7 +240,8 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * <p>Determines the Base URL, e.g.,
+     * <p>
+     * Determines the Base URL, e.g.,
      * {@literal http://localhost:8080/myApplication} from the
      * {@link HttpServletRequest}.</p>
      *
