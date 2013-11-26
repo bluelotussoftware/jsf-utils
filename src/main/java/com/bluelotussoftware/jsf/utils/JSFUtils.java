@@ -42,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -239389905192465530L;
+    private static final long serialVersionUID = -1537652468243537230L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -169,6 +169,56 @@ public class JSFUtils implements Serializable {
      */
     public static MethodExpressionActionListener createMethodExpressionActionListener(final String methodExpression, Class<?> expectedReturnType, Class<?>[] expectedParamTypes) {
         return new MethodExpressionActionListener(createMethodExpression(methodExpression, expectedReturnType, expectedParamTypes));
+    }
+
+    /**
+     * Return a typed reference to the bean from the
+     * {@link javax.faces.context.ExternalContext#getApplicationMap()}.
+     *
+     * @param <T> type of class.
+     * @param beanName name of the class to search for in
+     * {@link javax.faces.ExternalContext#getApplicationMap()}.
+     * @return referenced bean.
+     * @since 1.4
+     * @see #getBean(java.lang.String)
+     * @see #getBean(java.lang.String, java.lang.Class)
+     */
+    public static <T> T getTypedBean(String beanName) {
+        return (T) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(beanName);
+    }
+
+    /**
+     * Return a reference to the bean from the
+     * {@link javax.faces.context.ExternalContext#getApplicationMap()}.
+     *
+     * @param beanName name of the class to search for in
+     * {@link javax.faces.ExternalContext#getApplicationMap()}.
+     * @return referenced bean.
+     * @since 1.4
+     * @see #getTypedBean(java.lang.String)
+     * @see #getBean(java.lang.String, java.lang.Class)
+     */
+    public static Object getBean(String beanName) {
+        return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(beanName);
+    }
+
+    /**
+     * Return a reference to the bean from the
+     * {@link javax.faces.context.FacesContext#getCurrentInstance()}.
+     *
+     * @param <T> type of class.
+     * @param beanName name of the class to search for in
+     * {@link javax.faces.context.FacesContext}.
+     * @param beanClass class type of bean to return.
+     * @return referenced bean.
+     * @since 1.4
+     * @see #getBean(java.lang.String)
+     * @see #getTypedBean(java.lang.String)
+     */
+    public static <T> T getBean(String beanName, Class<T> beanClass) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        return (T) application.evaluateExpressionGet(context, "#{" + beanName + "}", beanClass);
     }
 
     /**
