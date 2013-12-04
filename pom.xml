@@ -18,6 +18,10 @@
         <developerConnection>scm:hg:https://code.bluelotussoftware.com/jsf-utils</developerConnection>
         <url>http://code.bluelotussoftware.com/jsf-utils/src</url>
     </scm>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://code.bluelotussoftware.com/jsf-utils/issues</url>
+    </issueManagement>
     <developers>
         <developer>
             <id>jyeary</id>
@@ -89,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10-SNAPSHOT</version>
+                <version>2.9.1</version>
                 <executions>
                     <execution>
                         <id>javadocs</id>
