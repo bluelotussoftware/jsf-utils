@@ -38,11 +38,11 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.4
+ * @version 1.5
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -8877205592076108417L;
+    private static final long serialVersionUID = -5653800003962032171L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -281,6 +281,39 @@ public class JSFUtils implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         Application application = context.getApplication();
         return (T) application.evaluateExpressionGet(context, "#{" + beanName + "}", beanClass);
+    }
+
+    /**
+     * This method provides a convenient means of determining the JSF
+     * Specification version.
+     *
+     * @return JSF Specification version, e.g. 2.1
+     * @since 1.5
+     */
+    public static String getSpecificationVersion() {
+        return FacesContext.getCurrentInstance().getClass().getPackage().getSpecificationVersion();
+    }
+
+    /**
+     * This method provides a convenient means of determining the JSF
+     * Implementation version.
+     *
+     * @return JSF Implementation version, e.g. 2.1.26
+     * @since 1.5
+     */
+    public static String getImplementationVersion() {
+        return FacesContext.getCurrentInstance().getClass().getPackage().getImplementationVersion();
+    }
+
+    /**
+     * This method provides a convenient means of determining the JSF
+     * Implementation Title.
+     *
+     * @return JSF implementation title, e.g. Mojarra.
+     * @since 1.5
+     */
+    public static String getImplementationTitle() {
+        return FacesContext.getCurrentInstance().getClass().getPackage().getImplementationTitle();
     }
 
     /**
