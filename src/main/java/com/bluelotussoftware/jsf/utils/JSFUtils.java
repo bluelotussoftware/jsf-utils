@@ -26,7 +26,6 @@ import javax.el.ELException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
@@ -45,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = 4005663315445526130L;
+    private static final long serialVersionUID = -5653800003962032171L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -320,11 +319,8 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * This method sets the {@link ManagedBean} to {@code null} using the bean
-     * name provided .
-     *
-     * @param beanName The name of the managed bean to set to {@code null}.
-     * @since 1.6
+     * This method sets the bean name provided to {@code null}.
+     * @param beanName
      */
     public static void removeManagedBean(final String beanName) {
         FacesContext fc = FacesContext.getCurrentInstance();
