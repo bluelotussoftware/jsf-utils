@@ -21,7 +21,6 @@ package com.bluelotussoftware.jsf.utils;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.el.ELContext;
 import javax.el.ELException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -40,11 +39,11 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6
+ * @version 1.6.1
  */
 public class JSFUtils implements Serializable {
 
-    private static final long serialVersionUID = -5653800003962032171L;
+    private static final long serialVersionUID = 4005663315445526130L;
 
     /**
      * Creates a {@link ValueExpression} that wraps an object instance. This
@@ -320,7 +319,9 @@ public class JSFUtils implements Serializable {
 
     /**
      * This method sets the bean name provided to {@code null}.
-     * @param beanName
+     *
+     * @param beanName The name of the bean to remove.
+     * @since 1.6
      */
     public static void removeManagedBean(final String beanName) {
         FacesContext fc = FacesContext.getCurrentInstance();
