@@ -75,9 +75,7 @@ public class JSFUtils implements Serializable {
      * @see #createValueExpression(java.lang.String, java.lang.Class)
      */
     public static ValueExpression createValueExpression(final String expression) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return context.getApplication().getExpressionFactory()
-                .createValueExpression(context.getELContext(), expression, Object.class);
+        return createValueExpression(expression, Object.class);
     }
 
     /**
