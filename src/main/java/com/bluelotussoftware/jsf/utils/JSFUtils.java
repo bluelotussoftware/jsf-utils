@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.1
+ * @version 1.6.2
  */
 public class JSFUtils implements Serializable {
 
@@ -281,7 +281,7 @@ public class JSFUtils implements Serializable {
     public static <T> T getBean(String beanName, Class<T> beanClass) {
         FacesContext context = FacesContext.getCurrentInstance();
         Application application = context.getApplication();
-        return (T) application.evaluateExpressionGet(context, "#{" + beanName + "}", beanClass);
+        return (T) application.evaluateExpressionGet(context, String.format("#{%s}", beanName), beanClass);
     }
 
     /**
