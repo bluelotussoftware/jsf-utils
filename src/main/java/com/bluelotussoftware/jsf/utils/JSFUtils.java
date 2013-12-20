@@ -373,9 +373,9 @@ public class JSFUtils implements Serializable {
      * {@link FacesContext}.</p>
      *
      * @param facesContext The {@link FacesContext} to examine.
-     * @return the base URL.
+     * @return the base {@link URL}.
      * @throws MalformedURLException if an exception occurs during parsing of
-     * the URL.
+     * the {@link URL}.
      * @since 1.3
      */
     public static String getBaseURL(final FacesContext facesContext) throws MalformedURLException {
@@ -389,9 +389,9 @@ public class JSFUtils implements Serializable {
      * {@link ExternalContext}.</p>
      *
      * @param externalContext The {@link ExternalContext} to examine.
-     * @return the base URL.
+     * @return the base {@link URL}.
      * @throws MalformedURLException if an exception occurs during parsing of
-     * the URL.
+     * the {@link URL}.
      * @since 1.3
      */
     public static String getBaseURL(final ExternalContext externalContext) throws MalformedURLException {
@@ -405,9 +405,9 @@ public class JSFUtils implements Serializable {
      * {@link HttpServletRequest}.</p>
      *
      * @param request The {@link HttpServletRequest} to examine.
-     * @return the base URL.
+     * @return the base {@link URL}.
      * @throws MalformedURLException if an exception occurs during parsing of
-     * the URL.
+     * the {@link URL}.
      * @see URL
      * @since 1.3
      */
