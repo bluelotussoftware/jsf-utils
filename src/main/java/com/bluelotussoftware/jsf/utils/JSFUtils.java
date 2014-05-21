@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 Blue Lotus Software, LLC.
+ * Copyright 2012-2014 Blue Lotus Software, LLC.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.2
+ * @version 1.6.3
  */
 public class JSFUtils implements Serializable {
 
@@ -233,34 +233,60 @@ public class JSFUtils implements Serializable {
     }
 
     /**
-     * Return a typed reference to the bean from the
-     * {@link javax.faces.context.ExternalContext#getApplicationMap()}.
+     * Return a reference to the bean from one of the following: {@link javax.faces.context.ExternalContext#getApplicationMap()}, {@link javax.faces.context.ExternalContext#getSessionMap()},
+     * {@link javax.faces.component.UIViewRoot#getViewMap()}, {@link javax.faces.context.ExternalContext#getRequestMap()},
+     * and {@link javax.faces.context.ExternalContext#getFlash()} objects.
      *
      * @param <T> type of class.
-     * @param beanName name of the class to search for in
-     * {@link javax.faces.ExternalContext#getApplicationMap()}.
-     * @return referenced bean.
+     * @param beanName name of the class to search for in {@link javax.faces.context.ExternalContext#getApplicationMap()}, {@link javax.faces.context.ExternalContext#getSessionMap()},
+     * {@link javax.faces.component.UIViewRoot#getViewMap()}, {@link javax.faces.context.ExternalContext#getRequestMap()},
+     * and {@link javax.faces.context.ExternalContext#getFlash()} objects.
+     * @return referenced bean, or {@literal null} if it can not be found.
      * @since 1.4
      * @see #getBean(java.lang.String)
      * @see #getBean(java.lang.String, java.lang.Class)
      */
     public static <T> T getTypedBean(String beanName) {
-        return (T) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(beanName);
+        return (T) getBean(beanName);
     }
 
     /**
-     * Return a reference to the bean from the
-     * {@link javax.faces.context.ExternalContext#getApplicationMap()}.
+     * Return a reference to the bean from one of the following: {@link javax.faces.context.ExternalContext#getApplicationMap()}, {@link javax.faces.context.ExternalContext#getSessionMap()},
+     * {@link javax.faces.component.UIViewRoot#getViewMap()}, {@link javax.faces.context.ExternalContext#getRequestMap()},
+     * and {@link javax.faces.context.ExternalContext#getFlash()} objects.
      *
-     * @param beanName name of the class to search for in
-     * {@link javax.faces.ExternalContext#getApplicationMap()}.
-     * @return referenced bean.
+     * @param beanName name of the class to search for in {@link javax.faces.context.ExternalContext#getApplicationMap()}, {@link javax.faces.context.ExternalContext#getSessionMap()},
+     * {@link javax.faces.component.UIViewRoot#getViewMap()}, {@link javax.faces.context.ExternalContext#getRequestMap()},
+     * and {@link javax.faces.context.ExternalContext#getFlash()} objects.
+     * @return referenced bean, or {@literal null} if it can not be found.
      * @since 1.4
      * @see #getTypedBean(java.lang.String)
      * @see #getBean(java.lang.String, java.lang.Class)
      */
     public static Object getBean(String beanName) {
-        return FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(beanName);
+        Object obj;
+        FacesContext fctx = FacesContext.getCurrentInstance();
+        ExternalContext ectx = fctx.getExternalContext();
+
+        obj = ectx.getApplicationMap().get(beanName); // Check Application Scope
+
+        if (obj == null) {
+            obj = ectx.getSessionMap().get(beanName); // Check Session Scope 
+        }
+
+        if (obj == null) {
+            obj = fctx.getViewRoot().getViewMap().get(beanName); // Check View Scope
+        }
+
+        if (obj == null) {
+            obj = ectx.getRequestMap().get(beanName); // Check Request Scope
+        }
+
+        if (obj == null) {
+            obj = ectx.getFlash().get(beanName); // Check Flash Scope
+        }
+
+        return obj;
     }
 
     /**
