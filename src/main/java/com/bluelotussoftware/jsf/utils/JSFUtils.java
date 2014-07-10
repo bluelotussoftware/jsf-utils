@@ -21,6 +21,7 @@ package com.bluelotussoftware.jsf.utils;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import javax.el.ELException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -39,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.3
+ * @version 1.6.4
  */
 public class JSFUtils implements Serializable {
 
@@ -440,5 +441,30 @@ public class JSFUtils implements Serializable {
                 request.getServerName(),
                 request.getServerPort(),
                 request.getContextPath()).toString();
+    }
+
+    /**
+     * This method will encode text that contains illegal XML characters to
+     * prevent errors.
+     *
+     * @param text The text to be evaluated and encoded.
+     * @return An encoded {@code String}.
+     * @since 1.6.4
+     */
+    public static String XMLEncode(final String text) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < text.length(); i++) {
+            char value = text.charAt(i);
+            if (!((value >= 'a' && value <= 'z')
+                    || (value >= 'A' && value <= 'Z')
+                    || (value >= '0' && value <= '9'))) {
+                MessageFormat.format("&#{0};", (int) value);
+                result.append(MessageFormat.format("&#{0};", (int) value));
+            } else {
+                result.append(value);
+            }
+        }
+        return result.toString();
     }
 }
