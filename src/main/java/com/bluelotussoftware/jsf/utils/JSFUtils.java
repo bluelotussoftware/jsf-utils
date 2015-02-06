@@ -27,6 +27,7 @@ import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.ExternalContext;
@@ -40,7 +41,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.4
+ * @version 1.6.5
  */
 public class JSFUtils implements Serializable {
 
@@ -276,7 +277,11 @@ public class JSFUtils implements Serializable {
         }
 
         if (obj == null) {
-            obj = fctx.getViewRoot().getViewMap().get(beanName); // Check View Scope
+            UIViewRoot uivr = fctx.getViewRoot();
+
+            if (uivr != null) {
+                obj = uivr.getViewMap(true).get(beanName); // Check View Scope
+            }
         }
 
         if (obj == null) {
