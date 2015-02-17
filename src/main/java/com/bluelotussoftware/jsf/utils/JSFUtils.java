@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.5
+ * @version 1.6.6
  */
 public class JSFUtils implements Serializable {
 
@@ -280,7 +280,7 @@ public class JSFUtils implements Serializable {
             UIViewRoot uivr = fctx.getViewRoot();
 
             if (uivr != null) {
-                obj = uivr.getViewMap(true).get(beanName); // Check View Scope
+                obj = uivr.getViewMap().get(beanName); // Check View Scope
             }
         }
 
