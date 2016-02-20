@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * $Id$
+ /*
+ * $Id:$
  */
 package com.bluelotussoftware.jsf.utils;
 
@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Map;
 import javax.el.ELException;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -41,7 +42,7 @@ import javax.servlet.http.HttpServletRequest;
  * A collection of utility methods that handle repetitive boilerplate code.
  *
  * @author John Yeary <jyeary@bluelotussoftware.com>
- * @version 1.6.6
+ * @version 2.0
  */
 public class JSFUtils implements Serializable {
 
@@ -471,5 +472,43 @@ public class JSFUtils implements Serializable {
             }
         }
         return result.toString();
+    }
+
+    /**
+     * This method adds a composite component to the parent component provided.
+     *
+     * @param parent The {@link UIComponent} to add the composite component will
+     * be added as a child.
+     * @param taglibURI The XML name space of the composite component library.
+     * @param tagName The name of the tag to add.
+     * @param id An ID to associate with the added composite component.
+     * @param attributes Composite component attributes to set.
+     * @see #includeCompositeComponent(javax.faces.component.UIComponent,
+     * java.lang.String, java.lang.String, java.lang.String)
+     * @since 2.0
+     */
+    public static void includeCompositeComponent(final UIComponent parent, final String taglibURI, final String tagName, final String id, final Map<String, Object> attributes) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent composite = context.getApplication().getViewHandler()
+                .getViewDeclarationLanguage(context, context.getViewRoot().getViewId())
+                .createComponent(context, taglibURI, tagName, attributes);
+        composite.setId(id);
+        parent.getChildren().add(composite);
+    }
+
+    /**
+     * This method adds a composite component to the parent component provided.
+     *
+     * @param parent The {@link UIComponent} to add the composite component will
+     * be added as a child.
+     * @param taglibURI The XML name space of the composite component library.
+     * @param tagName The name of the tag to add.
+     * @param id An ID to associate with the added composite component.
+     * @see #includeCompositeComponent(javax.faces.component.UIComponent,
+     * java.lang.String, java.lang.String, java.lang.String, java.util.Map)
+     * @since 2.0
+     */
+    public static void includeCompositeComponent(final UIComponent parent, final String taglibURI, final String tagName, final String id) {
+        includeCompositeComponent(parent, taglibURI, tagName, id, null);
     }
 }
