@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import javax.el.ELException;
 import javax.el.MethodExpression;
@@ -33,9 +34,11 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import javax.faces.event.MethodExpressionActionListener;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -511,4 +514,68 @@ public class JSFUtils implements Serializable {
     public static void includeCompositeComponent(final UIComponent parent, final String taglibURI, final String tagName, final String id) {
         includeCompositeComponent(parent, taglibURI, tagName, id, null);
     }
+
+    /**
+     * <p>
+     * Creates an array of {@link SelectItem}s from a List.</p>
+     * <p>
+     * The {@link Object#toString()} method is used to create the list item
+     * values.
+     * </p>
+     *
+     * @param entities The {@link List} of values to convert to
+     * {@link SelectItem}s.
+     * @param selectOne Determines if an empty value is added so that the user
+     * must select at least one item.
+     * @return an array of {@link SelectItem} elements.
+     * @since 2.0
+     */
+    public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
+        int size = selectOne ? entities.size() + 1 : entities.size();
+        SelectItem[] items = new SelectItem[size];
+        int i = 0;
+        if (selectOne) {
+            items[0] = new SelectItem("", "---");
+            i++;
+        }
+        for (Object object : entities) {
+            items[i++] = new SelectItem(object, object.toString());
+        }
+        return items;
+    }
+
+    /**
+     * <p>
+     * Gets a value from the HTTP Request parameter map using the provided
+     * key.</p>
+     *
+     * @param key The key for the parameter.
+     * @return The parameter value, or {@literal null} if the value can not be
+     * found in the parameter map.
+     * @since 2.0
+     */
+    public static String getRequestParameter(String key) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(key);
+    }
+
+    /**
+     * <p>
+     * Converts a parameter in the HTTP Request parameter map into an
+     * object.</p>
+     *
+     * @param requestParameterName The parameter name to look for in the HTTP
+     * Request.
+     * @param converter The {@link Converter} to attempt to use to convert the
+     * value into an {@literal Object}.
+     * @param component The JSF component to examine to evaluate.
+     * @return A converted {@literal Object}, or {@literal null} if conversion
+     * was unsuccessful.
+     * @see #getRequestParameter(java.lang.String)
+     * @since 2.0
+     */
+    public static Object getObjectFromRequestParameter(String requestParameterName, Converter converter, UIComponent component) {
+        String value = getRequestParameter(requestParameterName);
+        return converter.getAsObject(FacesContext.getCurrentInstance(), component, value);
+    }
+
 }
