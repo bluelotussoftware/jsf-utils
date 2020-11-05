@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * A collection of utility methods that handle repetitive boilerplate code.
  *
- * @author John Yeary <jyeary@bluelotussoftware.com>
+ * @author <a href="mailto:jyeary@bluelotussoftware.com">John Yeary</a>
  * @version 2.0
  */
 public class JSFUtils implements Serializable {
@@ -162,7 +162,7 @@ public class JSFUtils implements Serializable {
      * @param expression The expression to be parsed.
      * @return The parsed expression.
      * @see JSFUtils#createMethodExpression(java.lang.String, java.lang.Class,
-     * java.lang.Class<?>[])
+     * java.lang.Class[])
      * @see JSFUtils#createActionEventMethodExpression(java.lang.String)
      * @deprecated
      */
@@ -179,7 +179,7 @@ public class JSFUtils implements Serializable {
      * @return The parsed expression.
      * @since 1.4
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
-     * java.lang.Class<?>[])
+     * java.lang.Class[])
      */
     public static MethodExpression createActionEventMethodExpression(final String expression) {
         Class<?>[] expectedParamTypes = new Class<?>[1];
@@ -205,7 +205,7 @@ public class JSFUtils implements Serializable {
      * parameters.
      * @since 1.4
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
-     * java.lang.Class<?>[])
+     * java.lang.Class[])
      */
     public static MethodExpression createActionExpression(final String expression) {
         return createMethodExpression(expression, String.class, new Class<?>[]{});
@@ -232,7 +232,7 @@ public class JSFUtils implements Serializable {
      * MethodExpression}.
      * @since 1.4
      * @see #createMethodExpression(java.lang.String, java.lang.Class,
-     * java.lang.Class<?>[])
+     * java.lang.Class[])
      */
     public static MethodExpressionActionListener createMethodExpressionActionListener(final String methodExpression, Class<?> expectedReturnType, Class<?>[] expectedParamTypes) {
         return new MethodExpressionActionListener(createMethodExpression(methodExpression, expectedReturnType, expectedParamTypes));
